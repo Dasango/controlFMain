@@ -1,0 +1,211 @@
+{
+  "main": {
+    "id": "88f915779e747b69",
+    "type": "split",
+    "children": [
+      {
+        "id": "9a667b73579dd281",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "96ad8bd13d6afeb7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "prompts/Database_creation/database creation with JPA.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "database creation with JPA"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cbe7c397bf118eb6",
+    "type": "split",
+    "children": [
+      {
+        "id": "a747f60aa12b2c65",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8311487d07952dae",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "0f1817c267101a7f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3e19e9eebeb41ad1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5be0d377647d487c",
+    "type": "split",
+    "children": [
+      {
+        "id": "fd75e16c08aa19cd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5886899510c68838",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "prompts/api/Create and api.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Create and api"
+            }
+          },
+          {
+            "id": "dc43ed98f334b58c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "prompts/api/Create and api.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Create and api"
+            }
+          },
+          {
+            "id": "1de04552b330f3e9",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "bbaaa8f3e3b94300",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "b527503d5e59c4a0",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "prompts/api/Create and api.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Create and api"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "8311487d07952dae",
+  "lastOpenFiles": [
+    "prompts/Database_creation/database creation with JPA.md",
+    "prompts/Componentes/directorio_leyes/COMPONENTE_DIRECTORIO_PROPUESTAS/COMPONENTE_DIRECTORIO_PROPUESTAS_PUML.png",
+    "prompts/Componentes/directorio_leyes/COMPONENTE_DIRECTORIO_PROPUESTAS/COMPONENTE_DIRECTORIO_PROPUESTAS_DISEÑO.png",
+    "prompts/Componentes/perfil_ley/Componente_debate_ciudadano/Componente_debate_ciudadano_diseno.png",
+    "prompts/Componentes/perfil_politico_screen/Modulo_ChatDebateCiudadano/Captura de pantalla 2026-05-18 153626.png",
+    "prompts/Componentes/perfil_politico_screen/Modulo_ChatDebateCiudadano/Captura de pantalla 2026-05-18 153614.png",
+    "prompts/Componentes/perfil_ley/Componente_resultado_votacion/Componente_resultado_votacion_puml.png",
+    "prompts/Componentes/perfil_ley/Componente_resultado_votacion/Componente_expediente_legislativo_diseno.png",
+    "prompts/Componentes/perfil_ley/Componente_indice_header/Componente_indice_puml.png",
+    "prompts/Componentes/perfil_ley/Componente_indice_header/Componente_indice_diseno.png",
+    "prompts/Componentes/perfil_ley/Componente_expediente_legislativo/Componente_expediente_legislativo_puml.png",
+    "prompts/Componentes/perfil_politico_screen/perfil_politico_screen.puml",
+    "prompts/Componentes/perfil_politico_screen/ModuloPerfilDePolitico",
+    "prompts/Componentes/perfil_politico_screen/Modulo_ChatDebateCiudadano",
+    "prompts/Componentes/perfil_ley/UI_PERFIL_LEY.puml",
+    "prompts/Componentes/perfil_ley/Componente_resultado_votacion",
+    "prompts/Componentes/perfil_ley/Componente_indice_header",
+    "prompts/Componentes/perfil_ley/Componente_expediente_legislativo",
+    "prompts/Componentes/perfil_ley/Componente_debate_ciudadano",
+    "prompts/Componentes/perfil_ley/Componente_contenido_ley",
+    "prompts/Componentes/perfil_ley/Componente_auditoria_coherencia",
+    "controlF/src/main/java/com/controlf/db/schema.md"
+  ]
+}
