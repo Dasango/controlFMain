@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "9a667b73579dd281",
+        "id": "d764ee1e138b69af",
         "type": "tabs",
         "children": [
           {
-            "id": "96ad8bd13d6afeb7",
+            "id": "13e357554c335875",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "prompts/Database_creation/database creation with JPA.md",
+                "file": "prompts/components/task.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "database creation with JPA"
+              "title": "task"
             }
           }
         ]
@@ -183,9 +183,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "8311487d07952dae",
+  "active": "13e357554c335875",
   "lastOpenFiles": [
-    "prompts/Database_creation/database creation with JPA.md",
+    "prompts/components/perfil_politico_screen/CitizenParticipation/data.md",
+    "prompts/components/perfil_politico_screen/CoherenceHistory/data.md",
+    "prompts/components/perfil_politico_screen/CoherenceMetric/data.md",
+    "prompts/components/perfil_politico_screen/PoliticianProfile/data.md",
+    "prompts/components/perfil_politico_screen/NavigationHeader/data.md",
+    "prompts/components/perfil_politico_screen/CitizenParticipation/CitizenParticipation.puml",
+    "prompts/components/perfil_politico_screen/CoherenceHistory/CoherenceHistory.puml",
+    "prompts/components/perfil_politico_screen/CoherenceMetric/CoherenceMetric.puml",
+    "prompts/components/perfil_politico_screen/PoliticianProfile/PoliticianProfile.puml",
+    "prompts/components/perfil_politico_screen/NavigationHeader/NavigationHeader.puml",
+    "prompts/components/perfil_politico_screen/CitizenParticipation",
+    "prompts/components/perfil_politico_screen/CoherenceHistory",
+    "prompts/components/perfil_politico_screen/CoherenceMetric",
+    "prompts/components/perfil_politico_screen/PoliticianProfile",
+    "prompts/components/perfil_politico_screen/NavigationHeader",
+    "prompts/Database_creation/update clases propeties.md",
+    "prompts/Database_creation/module creation.md",
+    "prompts/components/task.md",
+    "prompts/components/creating components.md",
+    "prompts/components/get datatypes and interfaces.md",
     "prompts/Componentes/directorio_leyes/COMPONENTE_DIRECTORIO_PROPUESTAS/COMPONENTE_DIRECTORIO_PROPUESTAS_PUML.png",
     "prompts/Componentes/directorio_leyes/COMPONENTE_DIRECTORIO_PROPUESTAS/COMPONENTE_DIRECTORIO_PROPUESTAS_DISEÑO.png",
     "prompts/Componentes/perfil_ley/Componente_debate_ciudadano/Componente_debate_ciudadano_diseno.png",
@@ -196,16 +215,6 @@
     "prompts/Componentes/perfil_ley/Componente_indice_header/Componente_indice_puml.png",
     "prompts/Componentes/perfil_ley/Componente_indice_header/Componente_indice_diseno.png",
     "prompts/Componentes/perfil_ley/Componente_expediente_legislativo/Componente_expediente_legislativo_puml.png",
-    "prompts/Componentes/perfil_politico_screen/perfil_politico_screen.puml",
-    "prompts/Componentes/perfil_politico_screen/ModuloPerfilDePolitico",
-    "prompts/Componentes/perfil_politico_screen/Modulo_ChatDebateCiudadano",
-    "prompts/Componentes/perfil_ley/UI_PERFIL_LEY.puml",
-    "prompts/Componentes/perfil_ley/Componente_resultado_votacion",
-    "prompts/Componentes/perfil_ley/Componente_indice_header",
-    "prompts/Componentes/perfil_ley/Componente_expediente_legislativo",
-    "prompts/Componentes/perfil_ley/Componente_debate_ciudadano",
-    "prompts/Componentes/perfil_ley/Componente_contenido_ley",
-    "prompts/Componentes/perfil_ley/Componente_auditoria_coherencia",
     "controlF/src/main/java/com/controlf/db/schema.md"
   ]
 }

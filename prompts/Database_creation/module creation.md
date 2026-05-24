@@ -1,0 +1,3 @@
+- [ ] need you to create a folder with the same name 'perfil_politico_screen' 
+- [ ] go to [[prompts/components/perfil_politico_screen.puml|perfil_politico_screen]] read it  
+- [ ] detect all subcomponents in the [[prompts/components/perfil_politico_screen.puml|perfil_politico_screen]] file and create a .puml file for each subcomponent
