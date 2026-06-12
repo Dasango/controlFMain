@@ -6,10 +6,12 @@ import com.controlf.dto.ComentarioRequestDTO;
 import com.controlf.service.PoliticoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/politicos")
 @RequiredArgsConstructor
 public class PoliticoController {

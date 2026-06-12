@@ -16,7 +16,7 @@ const DirectorioLeyesPage: React.FC = () => {
 
   const fetchFiltros = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/leyes/filtros');
+      const response = await fetch('/api/leyes/filtros');
       const data = await response.json();
       setFiltros(prev => prev.map(f => {
         if (f.id === 'categoria') return { ...f, opciones: data.categorias };
@@ -39,7 +39,7 @@ const DirectorioLeyesPage: React.FC = () => {
         estado: filtros.find(f => f.id === 'estado')?.valorSeleccionado || ''
       });
 
-      const response = await fetch(`http://localhost:8080/api/leyes?${params.toString()}`);
+      const response = await fetch(`/api/leyes?${params.toString()}`);
       const data = await response.json();
       
       setLeyes(data.leyes);

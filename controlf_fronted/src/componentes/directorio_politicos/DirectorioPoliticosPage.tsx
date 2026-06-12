@@ -17,7 +17,7 @@ const DirectorioPoliticosPage: React.FC = () => {
 
   const fetchFiltros = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/politicos/filtros');
+      const response = await fetch('/api/politicos/filtros');
       const data = await response.json();
       
       setFiltros(prev => prev.map(f => {
@@ -44,7 +44,7 @@ const DirectorioPoliticosPage: React.FC = () => {
         comision: filtros.find(f => f.id === 'comision')?.valorSeleccionado || ''
       });
 
-      const response = await fetch(`http://localhost:8080/api/politicos?${params.toString()}`);
+      const response = await fetch(`/api/politicos?${params.toString()}`);
       const data = await response.json();
       
       setPoliticos(data.cartas);

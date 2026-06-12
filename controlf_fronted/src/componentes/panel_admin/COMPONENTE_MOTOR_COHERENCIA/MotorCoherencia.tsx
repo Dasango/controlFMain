@@ -17,7 +17,7 @@ const MotorCoherencia: React.FC = () => {
   const [analisis, setAnalisis] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/admin/motor/data')
+    fetch('/api/admin/motor/data')
       .then(res => res.json())
       .then(data => {
         setPoliticos(data.politicos);
@@ -27,7 +27,7 @@ const MotorCoherencia: React.FC = () => {
 
   useEffect(() => {
     if (selectedPolitico) {
-      fetch(`http://localhost:8080/api/admin/politicos/${selectedPolitico}/promesas`)
+      fetch(`/api/admin/politicos/${selectedPolitico}/promesas`)
         .then(res => res.json())
         .then(data => setPromesas(data));
     } else {
@@ -39,7 +39,7 @@ const MotorCoherencia: React.FC = () => {
     if (!selectedPromesa || !selectedLey) return;
 
     try {
-      await fetch('http://localhost:8080/api/admin/vinculos', {
+      await fetch('/api/admin/vinculos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

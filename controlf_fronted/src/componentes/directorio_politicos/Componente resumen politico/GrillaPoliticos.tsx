@@ -17,7 +17,7 @@ interface GrillaPoliticosProps {
   isLoading?: boolean;
 }
 
-const GrillaPoliticos: React.FC<GrillaPoliticosProps> = ({ cartas, isLoading }) => {
+const GrillaPoliticos: React.FC<GrillaPoliticosProps> = ({ cartas = [], isLoading }) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
@@ -28,7 +28,7 @@ const GrillaPoliticos: React.FC<GrillaPoliticosProps> = ({ cartas, isLoading }) 
     );
   }
 
-  if (cartas.length === 0) {
+  if (!cartas || cartas.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
         <div className="text-slate-300 mb-4 flex justify-center">

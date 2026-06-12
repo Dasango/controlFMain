@@ -4,7 +4,7 @@ import InfoBasica from './InfoBasica';
 import MetricaCoherencia from './MetricaCoherencia';
 import HistorialCoherencia from './HistorialCoherencia';
 import ParticipacionCiudadana from './ParticipacionCiudadana';
-import { PerfilPolitico } from './type_perfil_politico';
+import { type PerfilPolitico } from './type_perfil_politico';
 
 const PerfilPoliticoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,7 +15,7 @@ const PerfilPoliticoPage: React.FC = () => {
   const fetchPerfil = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/politicos/${id}`);
+      const response = await fetch(`/api/politicos/${id}`);
       if (!response.ok) throw new Error("Perfil no encontrado");
       const data = await response.json();
       setPerfil(data);
@@ -34,14 +34,14 @@ const PerfilPoliticoPage: React.FC = () => {
   const handleAddComentario = async (texto: string, puntaje: number) => {
     try {
       // POST Comentario
-      await fetch(`http://localhost:8080/api/politicos/${id}/comentarios`, {
+      await fetch(`/api/politicos/${id}/comentarios`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ texto, usuarioId: 1 }) // Usuario hardcodeado temporalmente hasta tener auth
       });
 
       // POST Calificación
-      await fetch(`http://localhost:8080/api/politicos/${id}/calificaciones`, {
+      await fetch(`/api/politicos/${id}/calificaciones`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ puntaje, usuarioId: 1 })

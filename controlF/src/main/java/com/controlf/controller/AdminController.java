@@ -6,13 +6,22 @@ import com.controlf.dto.VinculoRequestDTO;
 import com.controlf.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
+    private final com.controlf.service.DataSeederService dataSeederService;
+
+    @PostMapping("/seed")
+    public String seedData() {
+        dataSeederService.seed();
+        return "Database seeded successfully";
+    }
 
     @GetMapping("/motor/data")
     public com.controlf.dto.MotorCoherenciaDataDTO getMotorData() {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { HistorialCoherencia as HistorialType } from './type_perfil_politico';
+import { type IHistorialCoherencia as HistorialType } from './type_perfil_politico';
 
 interface HistorialCoherenciaProps {
   historial: HistorialType[];

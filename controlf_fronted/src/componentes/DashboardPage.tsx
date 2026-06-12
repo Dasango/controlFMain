@@ -6,7 +6,7 @@ const DashboardPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/dashboard/stats')
+    fetch('/api/dashboard/stats')
       .then(res => res.json())
       .then(data => {
         setStats(data);

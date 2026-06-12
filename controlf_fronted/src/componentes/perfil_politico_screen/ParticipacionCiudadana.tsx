@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ComentarioDebate } from './type_perfil_politico';
+import { type ComentarioDebate } from './type_perfil_politico';
 
 interface ParticipacionCiudadanaProps {
   comentarios: ComentarioDebate[];

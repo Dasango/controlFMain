@@ -14,7 +14,7 @@ const PerfilLeyPage: React.FC = () => {
   const fetchPerfil = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/leyes/${id}/perfil`);
+      const response = await fetch(`/api/leyes/${id}/perfil`);
       const data = await response.json();
       setPerfil(data);
     } catch (error) {
@@ -31,12 +31,12 @@ const PerfilLeyPage: React.FC = () => {
 
   const handleAddComentario = async (texto: string, puntaje: number) => {
     try {
-      await fetch(`http://localhost:8080/api/leyes/${id}/comentarios`, {
+      await fetch(`/api/leyes/${id}/comentarios`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ texto, usuarioId: 1 })
       });
-      await fetch(`http://localhost:8080/api/leyes/${id}/calificaciones`, {
+      await fetch(`/api/leyes/${id}/calificaciones`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ puntaje, usuarioId: 1 })

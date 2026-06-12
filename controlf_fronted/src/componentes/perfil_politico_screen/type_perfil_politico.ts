@@ -1,19 +1,19 @@
-export interface HistorialCoherencia {
+export type IHistorialCoherencia = {
   leyTitulo: string;
   votoReal: string;
   resultado: string;
   analisis: string;
-}
+};
 
-export interface ComentarioDebate {
+export type ComentarioDebate = {
   id: string;
   usuario: string;
   mensaje: string;
   fecha: string;
   avatarUrl: string;
-}
+};
 
-export interface PerfilPolitico {
+export type PerfilPolitico = {
   id: string;
   nombre: string;
   organizacion: string;
@@ -24,6 +24,6 @@ export interface PerfilPolitico {
   estaActivo: boolean;
   porcentajeCoherencia: number;
   estadoEtiqueta: string;
-  historial: HistorialCoherencia[];
+  historial: IHistorialCoherencia[];
   comentarios: ComentarioDebate[];
-}
+};

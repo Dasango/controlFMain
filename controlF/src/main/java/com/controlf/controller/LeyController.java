@@ -4,54 +4,36 @@ import com.controlf.dto.*;
 import com.controlf.service.LeyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/leyes")
 @RequiredArgsConstructor
 public class LeyController {
 
     private final LeyService leyService;
 
+    @GetMapping("/{id}/perfil")
+    public PerfilLeyDTO getPerfil(@PathVariable Integer id) {
+        return leyService.getFullPerfilLey(id);
+    }
+
     @GetMapping("/filtros")
-    public com.controlf.dto.FiltrosLeyDTO getFiltros() {
+    public FiltrosLeyDTO getFiltros() {
         return leyService.getFiltros();
     }
 
     @GetMapping
-    public com.controlf.dto.GrillaLeyesDTO getLeyes(
+    public GrillaLeyesDTO getLeyes(
             @RequestParam(defaultValue = "1") int pagina,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String termino,
             @RequestParam(required = false) String categoria,
             @RequestParam(required = false) String estado) {
         return leyService.getLeyesFiltradas(pagina, size, termino, categoria, estado);
-    }
-
-    @GetMapping("/{id}/perfil")
-    public PerfilLeyDTO getPerfilLey(@PathVariable Integer id) {
-        return leyService.getFullPerfilLey(id);
-    }
-
-    @GetMapping("/{id}")
-    public ContenidoLeyDTO getLey(@PathVariable Integer id) {
-        return leyService.getContenidoLey(id);
-    }
-
-    @GetMapping("/{id}/votacion")
-    public ResultadoVotacionDTO getVotacion(@PathVariable Integer id) {
-        return leyService.getResultadoVotacion(id);
-    }
-
-    @GetMapping("/{id}/debate")
-    public DebateCiudadanoDTO getDebate(@PathVariable Integer id) {
-        return leyService.getDebateCiudadano(id);
-    }
-
-    @GetMapping("/{id}/auditoria")
-    public AuditoriaCoherenciaDTO getAuditoria(@PathVariable Integer id) {
-        return leyService.getAuditoriaCoherencia(id);
     }
 
     @PostMapping("/{id}/comentarios")
