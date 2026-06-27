@@ -9,6 +9,8 @@ const AdminPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [assemblyMembers, setAssemblyMembers] = useState<any[]>([]);
   const [selectedMemberId, setSelectedMemberId] = useState('');
+  const [memberSearch, setMemberSearch] = useState('');
+  const [showMemberDropdown, setShowMemberDropdown] = useState(false);
   const [votings, setVotings] = useState<any[]>([]);
   const [selectedVotingIds, setSelectedVotingIds] = useState<number[]>([]);
   const [isLoadingMembers, setIsLoadingMembers] = useState(true);
@@ -25,7 +27,7 @@ const AdminPage: React.FC = () => {
         fetch('/api/admin/panel'),
         fetch('/api/admin/mantenimiento')
       ]);
-      
+
       setSeguridad(await segRes.json());
       setMantenimiento(await mantRes.json());
     } catch (error) {
@@ -72,7 +74,7 @@ const AdminPage: React.FC = () => {
 
   const handleSeedDatabase = async () => {
     if (!confirm("¿Deseas poblar la base de datos con datos de ejemplo? Esto solo funcionará si la base de datos está vacía.")) return;
-    
+
     try {
       const response = await fetch('/api/admin/seed', { method: 'POST' });
       if (response.ok) {
@@ -86,6 +88,12 @@ const AdminPage: React.FC = () => {
       alert("Error de conexión con el servidor.");
     }
   };
+
+  const filteredMembers = assemblyMembers.filter((m) =>
+    `${m.firstName} ${m.lastname} ${m.territorial}`
+      .toLowerCase()
+      .includes(memberSearch.toLowerCase())
+  );
 
   const handleMemberChange = async (memberId: string) => {
     setSelectedMemberId(memberId);
@@ -109,6 +117,25 @@ const AdminPage: React.FC = () => {
     } finally {
       setIsLoadingVotings(false);
     }
+  };
+
+  const handleMemberSearchChange = (value: string) => {
+    setMemberSearch(value);
+
+    if (!value.trim()) {
+      setShowMemberDropdown(false);
+      handleMemberChange('');
+      return;
+    }
+
+    setShowMemberDropdown(true);
+  };
+
+  const handleMemberSelect = (member: { id: number | string; firstName: string; lastname: string; territorial?: string }) => {
+    const label = `${member.firstName} ${member.lastname} - ${member.territorial || ''}`.trim();
+    setMemberSearch(label);
+    setShowMemberDropdown(false);
+    handleMemberChange(member.id.toString());
   };
 
   const toggleVotingSelection = (votingId: number) => {
@@ -182,23 +209,23 @@ const AdminPage: React.FC = () => {
           <h2 className="text-2xl font-black text-primary-navy uppercase tracking-tighter">Panel de Control y Administración</h2>
           <p className="text-slate-500">Gestión de auditoría ciudadana, seguridad y mantenimiento de infraestructura</p>
         </div>
-        <button 
+        <button
           onClick={handleSeedDatabase}
           className="px-4 py-2 bg-accent-blue text-white rounded-lg text-xs font-bold shadow-sm hover:bg-blue-600 transition-colors flex items-center gap-2"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
           POBLAR BASE DE DATOS (SEED)
         </button>
       </div>
 
-      <PanelControlSeguridad 
+      <PanelControlSeguridad
         titulo={seguridad.tituloSeccion}
         opciones={seguridad.opciones}
       />
 
       <MotorCoherencia />
 
-      <MantenimientoSistema 
+      <MantenimientoSistema
         info={mantenimiento}
         onAccion={handleAccionMantenimiento}
       />
@@ -206,7 +233,7 @@ const AdminPage: React.FC = () => {
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
         <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50">
           <h4 className="text-sm font-bold text-primary-navy uppercase tracking-wide flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20V10" /><path d="M18 20V4" /><path d="M6 20v-4" /></svg>
             IMPORTACIÓN DE VOTACIONES
           </h4>
         </div>
@@ -217,18 +244,39 @@ const AdminPage: React.FC = () => {
             {isLoadingMembers ? (
               <p className="text-sm text-slate-600">Cargando asambleístas...</p>
             ) : (
-              <select
-                value={selectedMemberId}
-                onChange={(e) => handleMemberChange(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-accent-blue focus:outline-none"
-              >
-                <option value="">Selecciona un asambleísta</option>
-                {assemblyMembers.map((member) => (
-                  <option key={member.id} value={member.id}>
-                    {`${member.firstName} ${member.lastname} - ${member.territorial || ''}`.trim()}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={memberSearch}
+                  onChange={(e) => handleMemberSearchChange(e.target.value)}
+                  onFocus={() => setShowMemberDropdown(true)}
+                  placeholder="Buscar asambleísta..."
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-accent-blue focus:outline-none"
+                />
+
+                {showMemberDropdown && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-64 overflow-y-auto">
+                    {filteredMembers.length > 0 ? (
+                      filteredMembers.map((member) => {
+                        const label = `${member.firstName} ${member.lastname} - ${member.territorial || ''}`.trim();
+                        const isSelected = selectedMemberId === member.id.toString();
+
+                        return (
+                          <div
+                            key={member.id}
+                            onClick={() => handleMemberSelect(member)}
+                            className={`px-4 py-3 text-sm text-slate-700 cursor-pointer hover:bg-slate-50 border-b border-slate-100 last:border-0 ${isSelected ? 'bg-accent-blue/10 text-accent-blue font-bold' : ''}`}
+                          >
+                            {label}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="px-4 py-3 text-sm text-slate-400 italic">Sin resultados</div>
+                    )}
+                  </div>
+                )}
+              </div>
             )}
           </div>
 

@@ -67,9 +67,11 @@ public class DataSeederService {
             "Abogada. Candidata presidencial 2023 y 2025.", "https://live.staticflickr.com/65535/52340671842_9664a76f47_o.jpg", null, null, null, null);
  //TEST
         Politico p7 = new Politico(null, "MARÍA CRISTINA ACUÑA VACA", "INDEPENDIENTE", "Asambleísta", "Pastaza", "Legislativo", true, new BigDecimal("85000"), "Asambleísta Nacional.", null, null, null, null, null);
+
+       Politico p8 = new Politico(null, "ALEJANDRO LORENZO VANEGAS CORTÁZAR", "INDEPENDIENTE", "Asambleísta", "Guayas", "Legislativo", true, new BigDecimal("85000"), "Asambleísta Nacional.", null, null, null, null, null);
            
 
-        politicoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6 ,p7));
+        politicoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6 ,p7, p8));
 
         // 4. LEYES
         List<Ley> leyes = new ArrayList<>();
