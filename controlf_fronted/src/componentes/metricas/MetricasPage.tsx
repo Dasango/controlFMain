@@ -47,23 +47,82 @@ const HorizontalBars: React.FC<{ datos: MetricaItem[]; sufijo?: string; max?: nu
   );
 };
 
+const MESES_CORTOS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+// Convierte una etiqueta "yyyy-MM" en un mes legible + año corto ("Ene" / "'24").
+const formatearMes = (etiqueta: string): { mes: string; anio: string } => {
+  const m = /^(\d{4})-(\d{2})$/.exec(etiqueta);
+  if (!m) return { mes: etiqueta, anio: '' };
+  const idx = parseInt(m[2], 10) - 1;
+  return { mes: MESES_CORTOS[idx] ?? m[2], anio: `'${m[1].slice(2)}` };
+};
+
 const ColumnChart: React.FC<{ datos: MetricaItem[] }> = ({ datos }) => {
-  const maximo = Math.max(1, ...datos.map((d) => d.valor));
+  // Animación de crecimiento: al montar, las barras parten de 0 y transicionan
+  // hasta su altura real. El componente se remonta en cada carga (skeleton de
+  // isLoading), por lo que la animación se repite al aplicar filtros.
+  const [animado, setAnimado] = useState(false);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setAnimado(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   if (datos.length === 0) {
     return <p className="text-sm text-slate-400 italic">Sin datos para los filtros actuales.</p>;
   }
+  const maximo = Math.max(1, ...datos.map((d) => d.valor));
+  const guias = [1, 0.75, 0.5, 0.25, 0]; // niveles de referencia (100%..0% del máximo)
+
   return (
-    <div className="flex items-end gap-2 h-48 overflow-x-auto pb-2">
-      {datos.map((d) => (
-        <div key={d.etiqueta} className="flex flex-col items-center justify-end flex-1 min-w-[42px]">
-          <span className="text-[10px] font-black text-slate-500 mb-1">{d.valor}</span>
-          <div
-            className="w-full rounded-t-lg bg-accent-blue transition-all duration-700"
-            style={{ height: `${(d.valor / maximo) * 100}%`, minHeight: d.valor > 0 ? '4px' : '0' }}
-          ></div>
-          <span className="text-[9px] font-bold text-slate-400 mt-1 whitespace-nowrap">{d.etiqueta}</span>
+    <div className="flex gap-3">
+      {/* Eje Y con valores de referencia */}
+      <div className="flex flex-col justify-between h-56 pt-6 pr-1 text-right text-[9px] font-bold text-slate-300 select-none">
+        {guias.map((g) => (
+          <span key={g} className="leading-none">{Math.round(maximo * g)}</span>
+        ))}
+      </div>
+
+      <div className="flex-1 overflow-x-auto">
+        {/* Zona de barras con líneas guía de fondo */}
+        <div className="relative">
+          <div className="absolute inset-0 flex flex-col justify-between pt-6 pointer-events-none">
+            {guias.map((g) => (
+              <div key={g} className="border-t border-dashed border-slate-100"></div>
+            ))}
+          </div>
+
+          <div className="relative flex items-end gap-2 sm:gap-3 h-56 pt-6">
+            {datos.map((d) => {
+              const alturaPct = d.valor > 0 ? Math.max((d.valor / maximo) * 100, 3) : 0;
+              return (
+                <div key={d.etiqueta} className="group flex h-full min-w-[38px] flex-1 items-end justify-center">
+                  <div
+                    className="relative w-full max-w-[44px] rounded-t-md bg-gradient-to-t from-accent-blue/60 to-accent-blue shadow-[0_1px_3px_rgba(59,130,246,0.35)] transition-[height,background-color] duration-700 ease-out group-hover:from-accent-blue group-hover:to-primary-navy"
+                    style={{ height: animado ? `${alturaPct}%` : '0%' }}
+                  >
+                    <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[11px] font-black text-slate-500 opacity-70 transition-all group-hover:text-accent-blue group-hover:opacity-100">
+                      {d.valor}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      ))}
+
+        {/* Etiquetas de mes (fila alineada con las barras) */}
+        <div className="flex gap-2 sm:gap-3 mt-2">
+          {datos.map((d) => {
+            const { mes, anio } = formatearMes(d.etiqueta);
+            return (
+              <div key={d.etiqueta} className="flex min-w-[38px] flex-1 flex-col items-center leading-none">
+                <span className="text-[10px] font-black text-slate-500 whitespace-nowrap">{mes}</span>
+                <span className="text-[8px] font-bold text-slate-300">{anio}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

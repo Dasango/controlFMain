@@ -1,5 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+// Normaliza texto para búsquedas tolerantes a mayúsculas y acentos
+// (ej. "topic" encuentra "Jan Topić", "maria" encuentra "MARÍA CRISTINA").
+const normalizar = (texto: string) =>
+  texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 interface PoliticoItem {
   id: string;
@@ -60,9 +65,11 @@ const ComparacionPage: React.FC = () => {
   const [politicos, setPoliticos] = useState<PoliticoItem[]>([]);
   const [seleccionados, setSeleccionados] = useState<string[]>([]);
   const [busqueda, setBusqueda] = useState('');
+  const [abierto, setAbierto] = useState(false);
   const [resultado, setResultado] = useState<ComparacionVotos | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const selectorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch('/api/politicos/importables')
@@ -71,13 +78,26 @@ const ComparacionPage: React.FC = () => {
       .catch((err) => console.error('Error al cargar políticos:', err));
   }, []);
 
+  // Cierra la lista desplegable al hacer clic fuera del selector.
+  useEffect(() => {
+    const alClicarFuera = (e: MouseEvent) => {
+      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
+        setAbierto(false);
+      }
+    };
+    document.addEventListener('mousedown', alClicarFuera);
+    return () => document.removeEventListener('mousedown', alClicarFuera);
+  }, []);
+
   const nombrePorId = useMemo(() => {
     const mapa: Record<string, string> = {};
     politicos.forEach((p) => { mapa[p.id] = p.label; });
     return mapa;
   }, [politicos]);
 
-  const filtrados = politicos.filter((p) => p.label.toLowerCase().includes(busqueda.toLowerCase()));
+  const filtrados = busqueda.trim()
+    ? politicos.filter((p) => normalizar(p.label).includes(normalizar(busqueda)))
+    : politicos;
 
   const toggle = (id: string) => {
     setResultado(null);
@@ -113,35 +133,66 @@ const ComparacionPage: React.FC = () => {
       {/* Selector */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <div>
-            <label className="text-xs font-black uppercase tracking-widest text-slate-500">Buscar políticos</label>
-            <input
-              type="text"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              placeholder="Escribe un nombre..."
-              className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 focus:border-accent-blue focus:outline-none"
-            />
-            <div className="mt-3 max-h-64 overflow-y-auto rounded-xl border border-slate-100 divide-y divide-slate-100">
-              {filtrados.length === 0 ? (
-                <p className="px-4 py-3 text-sm text-slate-400 italic">Sin resultados</p>
-              ) : (
-                filtrados.slice(0, 50).map((p) => {
-                  const activo = seleccionados.includes(p.id);
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => toggle(p.id)}
-                      className={`w-full text-left px-4 py-3 text-sm transition-colors flex items-center justify-between ${activo ? 'bg-accent-blue/10 text-accent-blue font-bold' : 'text-slate-700 hover:bg-slate-50'}`}
-                    >
-                      <span>{p.label}</span>
-                      {activo && <span className="text-xs">✓</span>}
-                    </button>
-                  );
-                })
-              )}
+          <div ref={selectorRef} className="relative">
+            <label className="text-xs font-black uppercase tracking-widest text-slate-500">Buscar político</label>
+            <div className="relative mt-2">
+              <input
+                type="text"
+                value={busqueda}
+                onChange={(e) => { setBusqueda(e.target.value); setAbierto(true); }}
+                onFocus={() => setAbierto(true)}
+                placeholder="Busca por nombre y selecciona..."
+                aria-expanded={abierto}
+                aria-haspopup="listbox"
+                className="w-full rounded-xl border border-slate-200 bg-white pl-4 pr-11 py-3 text-sm text-slate-700 focus:border-accent-blue focus:outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setAbierto((o) => !o)}
+                aria-label={abierto ? 'Ocultar lista' : 'Mostrar lista de políticos'}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-accent-blue"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform duration-200 ${abierto ? 'rotate-180' : ''}`}><polyline points="6 9 12 15 18 9" /></svg>
+              </button>
             </div>
+
+            {abierto && (
+              <div
+                role="listbox"
+                className="absolute z-20 mt-1 w-full max-h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white shadow-lg divide-y divide-slate-100"
+              >
+                {politicos.length === 0 ? (
+                  <p className="px-4 py-3 text-sm text-slate-400 italic">Cargando políticos...</p>
+                ) : filtrados.length === 0 ? (
+                  <p className="px-4 py-3 text-sm text-slate-400 italic">Sin resultados para «{busqueda}»</p>
+                ) : (
+                  filtrados.slice(0, 50).map((p) => {
+                    const activo = seleccionados.includes(p.id);
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        role="option"
+                        aria-selected={activo}
+                        onClick={() => toggle(p.id)}
+                        className={`w-full text-left px-4 py-3 text-sm transition-colors flex items-center justify-between ${activo ? 'bg-accent-blue/10 text-accent-blue font-bold' : 'text-slate-700 hover:bg-slate-50'}`}
+                      >
+                        <span>{p.label}</span>
+                        {activo && <span className="text-xs">✓</span>}
+                      </button>
+                    );
+                  })
+                )}
+                {filtrados.length > 50 && (
+                  <p className="px-4 py-2 text-[11px] text-slate-400 italic bg-slate-50">
+                    Mostrando 50 de {filtrados.length}. Sigue escribiendo para acotar.
+                  </p>
+                )}
+              </div>
+            )}
+            <p className="mt-2 text-xs text-slate-400">
+              {politicos.length > 0 && `${politicos.length} políticos disponibles`}
+            </p>
           </div>
 
           <div>
